@@ -52,7 +52,7 @@
     <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="md:col-span-1">
-                <img src="./assets/img/zim_square.png" alt="Placeholder Image" class="w-[70vw] h-[90vh] rounded-full">
+                <img src="./assets/img/zim_square_new.png" alt="Placeholder Image" class="w-full h-auto rounded-full">
             </div>
             <div class="md:col-span-2">
                 <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -86,8 +86,8 @@
                         <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="main-number-3"></div>
                         <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="main-number-4"></div>
                         <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="main-number-5"></div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="main-number-6"></div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="additional-number"></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="additional-number-1"></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center text-2xl font-bold" id="additional-number-2"></div>
                     </div>
                     <button id="generate-bingo" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md">Generate Numbers</button>
                 </div>
@@ -97,7 +97,7 @@
     <footer class="bg-white shadow-md mt-10">
         <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-gray-500 text-sm">
-                &copy; <span id="currentYear"></span> Your Company. All rights reserved.
+                &copy; <span id="currentYear"></span> Test Your Company. All rights reserved.
             </p>
         </div>
     </footer>
@@ -122,9 +122,9 @@
         function handleClick(e) {
             const cell = e.target;
             if (cell.innerHTML !== '') return;
-            cell.innerHTML = currentPlayer === 'X' ? '<i class="fa fa-grin"></i>' : '<i class="fa fa-poop"></i>';
+            cell.innerHTML = currentPlayer === 'X' ? '<i class="fa fa-grin fa-3x"></i>' : '<i class="fa fa-poop fa-3x text-[#6b310f]"></i>';
             if (checkWin(currentPlayer)) {
-                messageElement.innerHTML = `${currentPlayer === 'X' ? '<i class="fa fa-grin"></i>' : '<i class="fa fa-poop"></i>'} wins!`;
+                messageElement.innerHTML = `${currentPlayer === 'X' ? '<i class="fa fa-grin fa-3x"></i>' : '<i class="fa fa-poop fa-3x text-[#6b310f]"></i>'} wins!`;
                 cells.forEach(cell => cell.removeEventListener('click', handleClick));
             } else if (Array.from(cells).every(cell => cell.innerHTML !== '')) {
                 messageElement.textContent = 'Draw!';
@@ -155,22 +155,57 @@
     
         // Bingo Number Generator
         const generateBingoButton = document.getElementById('generate-bingo');
-        const mainNumbers = Array.from({ length: 6 }, (_, i) => document.getElementById(`main-number-${i + 1}`));
-        const additionalNumber = document.getElementById('additional-number');
+        const mainNumbers = Array.from({ length: 5 }, (_, i) => document.getElementById(`main-number-${i + 1}`));
+        const additionalNumbers = [document.getElementById('additional-number-1'), document.getElementById('additional-number-2')];
+        let intervals = [];
     
         function generateBingoNumbers() {
-            const numbers = Array.from({ length: 51 }, (_, i) => i);
-            const selectedNumbers = [];
-            for (let i = 0; i < 6; i++) {
-                const randomIndex = Math.floor(Math.random() * numbers.length);
-                selectedNumbers.push(numbers.splice(randomIndex, 1)[0]);
+            // Clear any existing intervals
+            intervals.forEach(interval => clearInterval(interval));
+            intervals = [];
+    
+            const mainPool = Array.from({ length: 50 }, (_, i) => i + 1);
+            const additionalPool = Array.from({ length: 12 }, (_, i) => i + 1);
+            const selectedMainNumbers = [];
+            const selectedAdditionalNumbers = [];
+    
+            for (let i = 0; i < 5; i++) {
+                const randomIndex = Math.floor(Math.random() * mainPool.length);
+                selectedMainNumbers.push(mainPool.splice(randomIndex, 1)[0]);
             }
-            const additional = numbers[Math.floor(Math.random() * numbers.length)];
+    
+            for (let i = 0; i < 2; i++) {
+                const randomIndex = Math.floor(Math.random() * additionalPool.length);
+                selectedAdditionalNumbers.push(additionalPool.splice(randomIndex, 1)[0]);
+            }
     
             mainNumbers.forEach((element, index) => {
-                element.textContent = selectedNumbers[index];
+                let interval = setInterval(() => {
+                    element.textContent = Math.floor(Math.random() * 50) + 1;
+                }, 100);
+                intervals.push(interval);
             });
-            additionalNumber.textContent = additional;
+    
+            additionalNumbers.forEach((element, index) => {
+                let interval = setInterval(() => {
+                    element.textContent = Math.floor(Math.random() * 12) + 1;
+                }, 100);
+                intervals.push(interval);
+            });
+    
+            mainNumbers.forEach((element, index) => {
+                setTimeout(() => {
+                    clearInterval(intervals[index]);
+                    element.textContent = selectedMainNumbers[index];
+                }, (index + 1) * 5000);
+            });
+    
+            additionalNumbers.forEach((element, index) => {
+                setTimeout(() => {
+                    clearInterval(intervals[mainNumbers.length + index]);
+                    element.textContent = selectedAdditionalNumbers[index];
+                }, (mainNumbers.length + index + 1) * 5000);
+            });
         }
     
         generateBingoButton.addEventListener('click', generateBingoNumbers);
