@@ -82,24 +82,15 @@
                 <div class="mt-5">
                     <h2 class="text-2xl font-bold text-gray-900">Tic Tac Toe</h2>
                     <div id="tic-tac-toe" class="grid grid-cols-3 gap-2 w-48 mx-auto mt-4">
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
-                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell>
-                        </div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
+                        <div class="w-16 h-16 bg-gray-200 flex items-center justify-center cursor-pointer" data-cell></div>
                     </div>
                     <p id="message" class="text-center mt-4 text-lg font-semibold justify-center"></p>
                     <button id="reset" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md">Reset</button>
@@ -164,11 +155,11 @@
             if (cell.innerHTML !== '') return;
             cell.innerHTML = currentPlayer === 'X'
                 ? '<i class="fa-solid fa-face-grin-tongue-wink fa-3x"></i>'
-                : '<i class="fa-solid fa-poop fa-3x text-[#6b310f]"></i>';
+                : '<i class="fa-solid fa-poop fa-3x text-[#663f00]"></i>';
             if (checkWin(currentPlayer === 'X' ? 'grin' : 'poop')) {
                 messageElement.innerHTML = `${currentPlayer === 'X'
                     ? '<i class="fa-solid fa-face-grin-tongue-wink fa-3x"></i>'
-                    : '<i class="fa-solid fa-poop fa-3x text-[#6b310f]"></i>'
+                    : '<i class="fa-solid fa-poop fa-3x text-[#663f00]"></i>'
                 } wins!`;
                 cells.forEach(cell => cell.removeEventListener('click', handleClick));
             } else if (Array.from(cells).every(cell => cell.innerHTML !== '')) {
