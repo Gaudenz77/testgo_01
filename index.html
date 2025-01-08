@@ -154,12 +154,12 @@
             const cell = e.target;
             if (cell.innerHTML !== '') return;
             cell.innerHTML = currentPlayer === 'X'
-                ? '<i class="fa-solid fa-face-grin-tongue-wink fa-3x"></i>'
-                : '<i class="fa-solid fa-poop fa-3x text-[#663f00]"></i>';
+                ? '<i class="fa-solid fa-face-grin-tongue-wink fa-3x" style="color:#eeb837"></i>'
+                : '<i class="fa-solid fa-poop fa-3x"  style="color:#663f00"></i>';
             if (checkWin(currentPlayer === 'X' ? 'grin' : 'poop')) {
                 messageElement.innerHTML = `${currentPlayer === 'X'
-                    ? '<i class="fa-solid fa-face-grin-tongue-wink fa-3x"></i>'
-                    : '<i class="fa-solid fa-poop fa-3x text-[#663f00]"></i>'
+                    ? '<i class="fa-solid fa-face-grin-tongue-wink fa-3x"  style="color:#eeb837"></i>'
+                    : '<i class="fa-solid fa-poop fa-3x" style="color:#663f00"></i>'
                 } wins!`;
                 cells.forEach(cell => cell.removeEventListener('click', handleClick));
             } else if (Array.from(cells).every(cell => cell.innerHTML !== '')) {
